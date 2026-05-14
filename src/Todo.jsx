@@ -8,8 +8,7 @@ function Todo() {
 
   function handleAdd() {
     if (inputValue.trim() === "") return;
-    const todo = [...todos, inputValue];
-    setTodos(todo);
+    setTodos([...todos, inputValue]);
     setInputValue("");
   }
 
@@ -21,7 +20,7 @@ function Todo() {
 
   const HandleUpdate = () => {
     const updatedTodos = todos.map((item, i) =>
-      i === editIndex ? inputValue : item,
+      i === editIndex ? inputValue : item
     );
 
     setTodos(updatedTodos);
@@ -31,162 +30,72 @@ function Todo() {
   };
 
   const HandleDelete = (index) => {
-    const Delete = todos.filter((_, i) => i !== index);
-    setTodos(Delete);
+    setTodos(todos.filter((_, i) => i !== index));
   };
 
   return (
-    <div className="h-screen flex items-center justify-center flex-col bg-slate-900">
-      <h1 className="font-bold text-4xl font-arial p-3 m-2 text-white">
-        Classic Todo Project
-      </h1>
+    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4 py-10">
+      <div className="w-full max-w-xl">
+        <h1 className="font-bold text-2xl sm:text-4xl text-center text-white mb-6">
+          Classic Todo Project
+        </h1>
 
-      <div className="h-auto w-100 flex ">
-        <input
-          className="bg-slate-700 p-3 w-[99%] rounded text-white"
-          type="text"
-          placeholder="Add Todo"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        {isEditing ? (
-          <button
-            className="ml-4 rounded p-3 bg-green-600 cursor-pointer text-white font-bold"
-            onClick={HandleUpdate}
-          >
-            Update
-          </button>
-        ) : (
-          <button
-            className="ml-4 rounded p-3 bg-blue-950 cursor-pointer text-white font-bold"
-            onClick={handleAdd}
-          >
-            Add
-          </button>
-        )}
-      </div>
+        {/* Input Section */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <input
+            className="bg-slate-700 p-3 w-full rounded text-white outline-none"
+            type="text"
+            placeholder="Add Todo"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
 
-      <ul>
-        {todos.map((todo, index) => (
-          <div className="rounded w-90 p-2 h-auto bg-slate-400 my-4 flex items-center flex-wrap overflow-auto justify-between">
-            <li key={index}>{todo}</li>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => HandleEdit(index)}
-                className="bg-amber-100 p-1 rounded px-2 text-black cursor-pointer"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => HandleDelete(index)}
-                className="bg-red-500 p-1 rounded px-2 text-black cursor-pointer"
-              >
-                Delete
-              </button>
+          {isEditing ? (
+            <button
+              className="bg-green-600 text-white font-bold px-4 py-3 rounded w-full sm:w-auto"
+              onClick={HandleUpdate}
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              className="bg-blue-700 text-white font-bold px-4 py-3 rounded w-full sm:w-auto"
+              onClick={handleAdd}
+            >
+              Add
+            </button>
+          )}
+        </div>
+
+        {/* Todo List */}
+        <ul className="space-y-3">
+          {todos.map((todo, index) => (
+            <div
+              key={index}
+              className="w-full bg-slate-400 p-3 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            >
+              <li className="break-words">{todo}</li>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => HandleEdit(index)}
+                  className="bg-amber-100 px-3 py-1 rounded text-black"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => HandleDelete(index)}
+                  className="bg-red-500 px-3 py-1 rounded text-black"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
 
 export default Todo;
-
-
-
-
-// import { useState } from "react";
-
-// function Todo() {
-//   const [inputValue, setInputValue] = useState("");
-//   const [todos, setTodos] = useState([]);
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [editIndex, setEditIndex] = useState(null);
-
-//   function handleAdd() {
-//     if (inputValue.trim() === "") return;
-//     const todo = [...todos, inputValue];
-//     setTodos(todo);
-//     setInputValue("");
-//   }
-
-//   const HandleEdit = (index) => {
-//     setInputValue(todos[index]);
-//     setIsEditing(true);
-//     setEditIndex(index);
-//   };
-
-//   const HandleUpdate = () => {
-//     const updatedTodos = todos.map((item, i) =>
-//       i === editIndex ? inputValue : item,
-//     );
-
-//     setTodos(updatedTodos);
-//     setInputValue("");
-//     setIsEditing(false);
-//     setEditIndex(null);
-//   };
-
-//   const HandleDelete = (index) => {
-//     const Delete = todos.filter((_, i) => i !== index);
-//     setTodos(Delete);
-//   };
-
-//   return (
-//     <div className="h-screen flex items-center justify-center flex-col bg-slate-900">
-//       <h1 className="font-bold text-3xl font-mono p-3 m-2 text-white">
-//         Classic Todo Project
-//       </h1>
-
-//       <div className="h-auto w-100 flex ">
-//         <input
-//           className="bg-slate-700 p-3 w-[99%] rounded text-white"
-//           type="text"
-//           placeholder="Add Todo"
-//           value={inputValue}
-//           onChange={(e) => setInputValue(e.target.value)}
-//         />
-//         {isEditing ? (
-//           <button
-//             className="ml-4 rounded p-3 bg-green-600 cursor-pointer text-white font-bold"
-//             onClick={HandleUpdate}
-//           >
-//             Update
-//           </button>
-//         ) : (
-//           <button
-//             className="ml-4 rounded p-3 bg-blue-950 cursor-pointer text-white font-bold"
-//             onClick={handleAdd}
-//           >
-//             Add
-//           </button>
-//         )}
-//       </div>
-
-//       <ul>
-//         {todos.map((todo, index) => (
-//           <div className="rounded w-90 p-2 h-auto bg-slate-400 my-4 flex items-center flex-wrap overflow-auto justify-between">
-//             <li key={index}>{todo}</li>
-//             <div className="flex items-center gap-2">
-//               <button
-//                 onClick={() => HandleEdit(index)}
-//                 className="bg-amber-100 p-1 rounded px-2 text-black cursor-pointer"
-//               >
-//                 Edit
-//               </button>
-//               <button
-//                 onClick={() => HandleDelete(index)}
-//                 className="bg-red-500 p-1 rounded px-2 text-black cursor-pointer"
-//               >
-//                 Delete
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-// export default Todo;
